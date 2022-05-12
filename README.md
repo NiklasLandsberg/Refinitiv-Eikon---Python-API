@@ -22,5 +22,5 @@ If you would like to retrieve a timeseries, a second approach because relevant
 10. Specify your time frame.
 11. The RIC argument has to be a list with strings and non-null. Eikon has problems to retrieve data for more than 3000-5000 RICS at a time. Hence, you need to slice the lists into chunks.
 
-The loops can break but then they have to be rerun. It is a known problem in the Python API. (# https://community.developers.refinitiv.com/questions/45723/why-eikonerror-error-code-400-backend-error-400-ba.html)
+The loops might break but then they have to be rerun. It is a known problem in the Python API. (# https://community.developers.refinitiv.com/questions/45723/why-eikonerror-error-code-400-backend-error-400-ba.html)
 One trick would be to even lower the numbers of rics in the lists where the information is retrieved.
