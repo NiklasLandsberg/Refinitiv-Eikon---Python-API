@@ -19,8 +19,10 @@ A manual how to retrieve your data:
 9. Retrieve the data and merge the dfs.
 
 If you would like to retrieve a timeseries, a second approach because relevant
+
 10. Specify your time frame.
 11. The RIC argument has to be a list with strings and non-null. Eikon has problems to retrieve data for more than 3000-5000 RICS at a time. Hence, you need to slice the lists into chunks.
 
-The loops might break but ek.set_timeout(100000) should circumvene it. If it breaks, then the loop has to be rerun. It is a known problem in the Python API. (# https://community.developers.refinitiv.com/questions/45723/why-eikonerror-error-code-400-backend-error-400-ba.html)
-One trick would be to further lower the numbers of rics in the lists where the information is retrieved.
+The loops might break due to time out error. Hence, please set ek.set_timeout(x) to a higher account.
+The Python API might also break because of the number of requests sent (# https://community.developers.refinitiv.com/questions/45723/why-eikonerror-error-code-400-backend-error-400-ba.html).
+One trick would be to reduce the numbers of rics in the lists per request.
