@@ -1,28 +1,23 @@
-# Eikon-API-Data-retrieval
-The script in the repository is to systematically retrieve data from Refinitiv`s Python API.
+# Refinitiv Eikon, Python API
+Refinitiv Eikon has a Python API which allows to retrieve stock-related characteristics in a bunch.
+The API only works if you have downloaded and logged into the Desktop version of Refinitiv Eikon.
+The following link, https://developers.refinitiv.com/en/api-catalog/eikon/eikon-data-api/quick-start, is a neat description of the steps to take in order to get the API to work.
 
-Refinitiv has a Python API which one can access via typing codebook. In the API, you are coding in a Jupiter Notebook that can be downloaded afterwards.
+Further, I provide a manual on how you can find and access different kinds of data sets.
 
-The way how to set up your key and connection is specified in the manual: https://developers.refinitiv.com/en/api-catalog/eikon/eikon-data-api/quick-start
-After you got your key, you can access the API.
+1. Open your Refinitiv Eikon Desktop
+2. Open your Python IDE
+3. Start your script with:
+   - import eikon as ek
+   - ek.set_app_key("YOUR KEY")
+   - ek.set_timeout(x), where x is the timeout you specify.
+4. Next go to your Refinitiv Eikon and type **SCREENER** into the search field
+5. Specify the relevant universe and your data items.
+6. Download the universe as formula and copy and paste the "SCREEN(..)" command into your script.
+7. If you want to download data for specific stocks rather than a whole universe of stocks, find the RICs you need and type **DATA ITEM** to the search field.
+   There you will find all available data items that you can use for the stocks as well as can verify if particular data items remain **None** after download.
 
-A manual how to retrieve your data:
-
-1. Go to **CODEBOOK**.
-2. Create a new Jupiter Notebook.
-3. import eikon as ek and set the key as ek.set_app_key("YOUR KEY")
-4. Go to **SCREENER** and specify the relevant universe.
-5. Download the universe as formula as you will need the "SCREEN(..)" command.
-6. Specify your universe. Note that the universe might have troubles to retrieve data without any NOT_IN or IN constraint. A work around is provided in the code.
-7. Go to **DATA ITEM** and search for characteristics you want to retrieve.
-8. Specify your field.
-9. Retrieve the data and merge the dfs.
-
-If you would like to retrieve a timeseries, a second approach because relevant
-
-10. Specify your time frame.
-11. The RIC argument has to be a list with strings and non-null. Eikon has problems to retrieve data for more than 3000-5000 RICS at a time. Hence, you need to slice the lists into chunks.
-
-The loops might break due to time out error. Hence, please set ek.set_timeout(x) to a higher account.
-The Python API might also break because of the number of requests sent (# https://community.developers.refinitiv.com/questions/45723/why-eikonerror-error-code-400-backend-error-400-ba.html).
-One trick would be to reduce the numbers of rics in the lists per request.
+Notes:
+1) The universe might error because the retrieval request is too large. For universe settings, e.g. if you want to download **all** stocks, you can use NOT_IN and IN as a workaround. You create two requests where the first request contains all stocks except stocks, e.g. in Germany, and then a second request for stocks only in Germany. Hence, you circumvene the limitation on requests within one call and get all information.
+2) I used get_data also for timeseries retrieval because you can access more data items than using timeseries.
+3) The RICs (if retrieval for specific stocks), have to be a list of strings that are non-null. Eikon restricts retrieving data for more than 3000-5000 RICS at a time depending on the data items chosen. A work around similar to 1) is to slice the lists into distinct chunks.
